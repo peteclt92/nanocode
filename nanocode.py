@@ -177,6 +177,10 @@ def separator():
     return f"{DIM}{'─' * min(os.get_terminal_size().columns, 80)}{RESET}"
 
 
+def render_markdown(text):
+    return re.sub(r"\*\*(.+?)\*\*", f"{BOLD}\\1{RESET}", text)
+
+
 def main():
     print(f"{BOLD}nanocode{RESET} | {DIM}{MODEL} | {os.getcwd()}{RESET}\n")
     messages = []
@@ -206,7 +210,7 @@ def main():
 
                 for block in content_blocks:
                     if block["type"] == "text":
-                        print(f"\n{CYAN}⏺{RESET} {block['text']}")
+                        print(f"\n{CYAN}⏺{RESET} {render_markdown(block['text'])}")
 
                     if block["type"] == "tool_use":
                         tool_name = block["name"]
